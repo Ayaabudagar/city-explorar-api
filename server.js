@@ -3,8 +3,10 @@ const server = express();
 const weatherData = require('./Data/data.json');
 const cors = require('cors');
 server.use(cors());
-
-const PORT = 3020;
+require('dotenv').config();
+const axios = require('axios');
+server.use(cors());
+const PORT = process.env.PORT;
 
 
 server.listen(PORT, () => {
@@ -21,4 +23,37 @@ server.get('/getWeather',(req,res) =>{
     })
     res.send(locationWeather);
 })
-    
+const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
+
+server.get('/weather-data', (req, res) => {
+
+    const lat = req.query.lat;
+    const lon = req.query.lon;
+ 
+    if (lat && lon) {
+        const weatherBitUrl = `https://api.weatherbit.io/v2.0/forecast/daily?key=${WEATHER_API_KEY}&lat=${lat}&lon=${lon}`;
+
+        axios.get(weatherBitUrl).then(response => {
+            const responseData = response.data.data.map(obj => new Weather(obj));
+            res.json(responseData)
+        }).catch(error => {
+            res.send(error.message)
+        });
+    } else {
+        res.send('please provide the proper lat and lon')
+    }
+
+
+});
+
+
+class Weather {
+    constructor(weatherData) {
+        this.description = weatherData.weather.description;
+        this.date = weatherData.valid_date;
+
+    }
+}
+
+
+
