@@ -24,6 +24,7 @@ server.get('/getWeather',(req,res) =>{
     res.send(locationWeather);
 })
 
+
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
 
 server.get('/weather-data', (req, res) => {
@@ -58,8 +59,6 @@ class Weather {
 
 
 
-
- 
 class ForeCast {
     constructor(object) {
         this.description = `Low of : ${object.low_temp} and a high of ${object.max_temp} with a ${object.weather.description} `
