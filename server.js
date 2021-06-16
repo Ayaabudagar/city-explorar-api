@@ -1,31 +1,28 @@
+'use strict';
+require('dotenv').config();
 const express = require('express');
-const server = express();
-const weatherData = require('./Data/data.json');
+// const weatherData = require('./data/weather.json');
 const cors = require('cors');
+const axios = require('axios');
+
+const server = express();
 server.use(cors());
 
-const PORT = 3020;
+const PORT = process.env.PORT;
 
+//http://localhost:3020/movie?city=Amman
+const movieHandler = require('./Modules/Movies.js');
+server.get('/movie', movieHandler);
+
+//http://localhost:3020/weather?city=Amman
+const weatherHandler = require('./Modules/Weather.js');
+server.get('/weather', weatherHandler);
+
+
+server.get('*', (req, res) => {
+    res.send('Not found');
+}); 
 
 server.listen(PORT, () => {
-    console.log(`Listening on PORT ${PORT}`);
+    console.log(`Listening to PORT ${PORT}`);
 })
-//localhost:3020/
-server.get('/',(req,res) =>{
-    res.send('I am in the root route');
-})
-//localhost:3020/getWeather
-server.get('/getWeather',(req,res) =>{
-    let locationWeather = weatherData.data.map (item=>{
-        return item.weather;
-    })
-    res.send(locationWeather);
-})
- 
-class ForeCast {
-    constructor(object) {
-        this.description = `Low of : ${object.low_temp} and a high of ${object.max_temp} with a ${object.weather.description} `
-        this.date = object.valid_date;
-    }
-}
-
