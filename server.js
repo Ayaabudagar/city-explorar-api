@@ -16,13 +16,9 @@ const PORT = process.env.PORT;
 const movieHandler = require('./Modules/Movies.js');
 server.get('/movie', movieHandler);
 
-require('dotenv').config();
 
 
-require('dotenv').config();
-const axios = require('axios');
-server.use(cors());
-const PORT = process.env.PORT;
+
 
 
 
