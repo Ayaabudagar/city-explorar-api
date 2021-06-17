@@ -22,6 +22,7 @@ function movieHandler(req, res) {
 }
 
 
+
 class Movie {
     constructor(item) {
         this.title = item.original_title;
@@ -33,3 +34,10 @@ class Movie {
         this.released_on = item.release_date;
     }
 }
+// server.get('*', (req, res) => {
+//     res.send('Not found');
+// }); 
+
+// server.listen(PORT, () => {
+//     console.log(`Listening to PORT ${PORT}`);
+// })
