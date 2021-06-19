@@ -10,6 +10,7 @@ server.use(cors());
 
 
 
+
 const PORT = process.env.PORT;
 
 //http://localhost:3020/movie?city=Amman
